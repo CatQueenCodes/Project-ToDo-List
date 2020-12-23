@@ -1,18 +1,23 @@
-<!doctype html>
-
-<html lang="en">
-<head>
-  <meta charset="utf-8">
-
-  <title>The HTML5 Herald</title>
-  <meta name="description" content="The HTML5 Herald">
-  <meta name="author" content="SitePoint">
-
-  <link rel="stylesheet" href='/src/style.css'>
-
-</head>
-
-<body>
-    <script src="main.js"></script>
-</body>
-</html>
+<!DOCTYPE html>
+ <html>
+   <head>
+     <meta charset="utf-8" />
+     <title>To Do List</title>
+     <link rel="stylesheet" href="/src/style.css">
+   </head>
+   <body>
+    <button id='addTask'>+ Task</button>
+    <form id='taskForm'>
+      <input id='taskName' placeholder="Task Name">
+      <select id='priority'>
+        <option value='High'>High</option>
+        <option value='Medium'>Medium</option>
+        <option value='Low'>Low</option>
+      </select>
+      <input id='date' placeholder="mm/dd/yy">
+      <button id='taskDoneButton'>Add</button>
+    </form>
+    <div id='app'>Tasks</div>
+    <script src='main.js'></script>
+   </body>
+ </html>
