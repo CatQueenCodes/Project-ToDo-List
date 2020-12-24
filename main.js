@@ -9,12 +9,17 @@
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 __webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "allProjects": () => /* binding */ allProjects
+/* harmony export */ });
 /* harmony import */ var _modules_taskHelpers__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./modules/taskHelpers */ "./src/modules/taskHelpers.js");
 /* harmony import */ var _modules_projectHelpers__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./modules/projectHelpers */ "./src/modules/projectHelpers.js");
 
 
 
 
+//holds app projects
+const allProjects = []; 
 
 //display form when '+ Project' clicked
 const addProjectButton = document.getElementById('addProject');
@@ -51,7 +56,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "renderTask": () => /* binding */ renderTask,
 /* harmony export */   "renderProject": () => /* binding */ renderProject
 /* harmony export */ });
-/* harmony import */ var _taskFactory__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./taskFactory */ "./src/modules/taskFactory.js");
+/* harmony import */ var _src_index_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../../../../../src/index.js */ "./src/index.js");
+/* harmony import */ var _taskFactory__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./taskFactory */ "./src/modules/taskFactory.js");
+
 
 
 //render task in DOM + complete & delete functionality
@@ -86,7 +93,7 @@ function renderTask(item){
     const deleteButton = document.createElement('button');
     deleteButton.className = 'taskDeleteBtn';
     deleteButton.textContent = 'X';
-    item.id = _taskFactory__WEBPACK_IMPORTED_MODULE_0__.project.indexOf(item);
+    item.id = _taskFactory__WEBPACK_IMPORTED_MODULE_1__.project.indexOf(item);
     let index = item.id; 
     deleteButton.addEventListener('click', deleteTask)
     taskWrapper.appendChild(deleteButton)
@@ -95,9 +102,9 @@ function renderTask(item){
 
     //delete task from project array
     function deleteTask() {
-       _taskFactory__WEBPACK_IMPORTED_MODULE_0__.project.splice(index,1); 
+       _taskFactory__WEBPACK_IMPORTED_MODULE_1__.project.splice(index,1); 
        taskHolder.innerHTML =' ';
-       _taskFactory__WEBPACK_IMPORTED_MODULE_0__.project.forEach(item => {renderTask(item)}); console.table(_taskFactory__WEBPACK_IMPORTED_MODULE_0__.project)
+       _taskFactory__WEBPACK_IMPORTED_MODULE_1__.project.forEach(item => {renderTask(item)}); console.table(_taskFactory__WEBPACK_IMPORTED_MODULE_1__.project)
     }
 
     //change color of completed task
@@ -129,10 +136,18 @@ function renderProject(item){
     const deleteButton = document.createElement('button');
     deleteButton.className = 'projectDeleteBtn';
     deleteButton.textContent = 'X';
-    //add event listener
+    item.id = _src_index_js__WEBPACK_IMPORTED_MODULE_0__.allProjects.indexOf(item);
+    let index = item.id;
+    deleteButton.addEventListener('click', deleteProject); //edit after main array is added
     projectWrapper.appendChild(deleteButton);
 
     projectHolder.appendChild(projectWrapper);
+
+    function deleteProject() {
+        _src_index_js__WEBPACK_IMPORTED_MODULE_0__.allProjects.splice(index, 1);
+        projectHolder.innerHTML = '';
+        _src_index_js__WEBPACK_IMPORTED_MODULE_0__.allProjects.forEach(item => renderProject(item)); console.table(_src_index_js__WEBPACK_IMPORTED_MODULE_0__.allProjects)
+    }
 }
 
 
@@ -174,6 +189,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var _projectFactory__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./projectFactory */ "./src/modules/projectFactory.js");
 /* harmony import */ var _DOM__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./DOM */ "./src/modules/DOM.js");
+/* harmony import */ var _src_index_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../../../../src/index.js */ "./src/index.js");
+
 
 
 
@@ -190,8 +207,9 @@ function displayProjectForm() {
 function addProject() {
     event.preventDefault();
     let project = (0,_projectFactory__WEBPACK_IMPORTED_MODULE_0__.projectFactory)(projectName.value, projectDescription.value)
-    console.log(project);
     hideProjectForm();
+    _src_index_js__WEBPACK_IMPORTED_MODULE_2__.allProjects.push(project);
+    projectForm.reset();
     (0,_DOM__WEBPACK_IMPORTED_MODULE_1__.renderProject)(project);
 }
 
@@ -326,8 +344,8 @@ function displayTaskForm() {
 /************************************************************************/
 /******/ 	// startup
 /******/ 	// Load entry module
+/******/ 	// This entry module is referenced by other modules so it can't be inlined
 /******/ 	__webpack_require__("./src/index.js");
-/******/ 	// This entry module used 'exports' so it can't be inlined
 /******/ })()
 ;
 //# sourceMappingURL=main.js.map
