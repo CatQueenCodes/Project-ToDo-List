@@ -48,7 +48,8 @@ submitTaskButton.addEventListener('click', _modules_taskHelpers__WEBPACK_IMPORTE
 
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "renderTask": () => /* binding */ renderTask
+/* harmony export */   "renderTask": () => /* binding */ renderTask,
+/* harmony export */   "renderProject": () => /* binding */ renderProject
 /* harmony export */ });
 /* harmony import */ var _taskFactory__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./taskFactory */ "./src/modules/taskFactory.js");
 
@@ -102,14 +103,36 @@ function renderTask(item){
     //change color of completed task
     function changeStatus(){   
         status = !status; console.log(status);
-        (status === false) ? this.style.backgroundColor = 'pink' : this.style.backgroundColor = 'orange';
+        (status === false) ? this.style.backgroundColor = 'transparent' : this.style.backgroundColor = 'rgb(115, 155, 96)';
     }
 }
 
+//going to need to render tasks in here too when it is clicked
 
 // render PROJECT and give project functionality
-function renderProject(){
-    
+function renderProject(item){
+    const projectHolder = document.getElementById('projectsHolder');
+    const name = document.getElementById('Name')
+    const description = document.getElementById('Description')
+
+    const projectWrapper = document.createElement('div');
+    projectWrapper.className = 'project';
+
+    const projectName = document.createElement('div');
+    projectName.className = 'projectName';
+    projectName.textContent = item.name;
+    projectWrapper.appendChild(projectName);
+
+    name.textContent = item.name;
+    description.textContent = item.description;
+
+    const deleteButton = document.createElement('button');
+    deleteButton.className = 'projectDeleteBtn';
+    deleteButton.textContent = 'X';
+    //add event listener
+    projectWrapper.appendChild(deleteButton);
+
+    projectHolder.appendChild(projectWrapper);
 }
 
 
@@ -150,6 +173,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "addProject": () => /* binding */ addProject
 /* harmony export */ });
 /* harmony import */ var _projectFactory__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./projectFactory */ "./src/modules/projectFactory.js");
+/* harmony import */ var _DOM__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./DOM */ "./src/modules/DOM.js");
+
 
 
 
@@ -167,6 +192,7 @@ function addProject() {
     let project = (0,_projectFactory__WEBPACK_IMPORTED_MODULE_0__.projectFactory)(projectName.value, projectDescription.value)
     console.log(project);
     hideProjectForm();
+    (0,_DOM__WEBPACK_IMPORTED_MODULE_1__.renderProject)(project);
 }
 
 
