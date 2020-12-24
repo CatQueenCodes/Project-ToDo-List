@@ -10,20 +10,164 @@
 
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _modules_taskHelpers__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./modules/taskHelpers */ "./src/modules/taskHelpers.js");
+/* harmony import */ var _modules_projectHelpers__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./modules/projectHelpers */ "./src/modules/projectHelpers.js");
 
 
 
+
+
+//display form when '+ Project' clicked
+const addProjectButton = document.getElementById('addProject');
+addProjectButton.addEventListener('click', _modules_projectHelpers__WEBPACK_IMPORTED_MODULE_1__.displayProjectForm)
+
+//submit project button 
+const submitProjectButton = document.getElementById('projectSubmit');
+submitProjectButton.addEventListener('click', _modules_projectHelpers__WEBPACK_IMPORTED_MODULE_1__.addProject)
 //displays tasks when '+ Task' is clicked
 const addTaskButton = document.getElementById('addTask');
 addTaskButton.addEventListener('click', _modules_taskHelpers__WEBPACK_IMPORTED_MODULE_0__.displayTaskForm) 
 
-//add button for task form to submit tasks
-const addButton = document.getElementById('taskDoneButton');
-addButton.addEventListener('click', _modules_taskHelpers__WEBPACK_IMPORTED_MODULE_0__.addTaskToProject);
+//submit task button
+const submitTaskButton = document.getElementById('taskSubmit');
+submitTaskButton.addEventListener('click', _modules_taskHelpers__WEBPACK_IMPORTED_MODULE_0__.addTaskToProject);
 
-//keeps form to submit tasks hidden until '+ Task' is clicked
+
+//keeps form to submit tasks and projects hidden until '+ Task' is clicked
 (0,_modules_taskHelpers__WEBPACK_IMPORTED_MODULE_0__.hideTaskForm)();
+(0,_modules_projectHelpers__WEBPACK_IMPORTED_MODULE_1__.hideProjectForm)();
 
+
+
+/***/ }),
+
+/***/ "./src/modules/DOM.js":
+/*!****************************!*\
+  !*** ./src/modules/DOM.js ***!
+  \****************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "renderTask": () => /* binding */ renderTask
+/* harmony export */ });
+/* harmony import */ var _taskFactory__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./taskFactory */ "./src/modules/taskFactory.js");
+
+
+//render task in DOM + complete & delete functionality
+function renderTask(item){
+    const taskHolder = document.getElementById('tasksHolder');
+
+    const taskWrapper = document.createElement('div');
+    taskWrapper.className = 'task';
+
+    const completeButton = document.createElement('button');
+    completeButton.className = 'taskCompleteBtn';
+    completeButton.textContent = '✓';
+    let status = item.completedStatus; console.log(status);
+    completeButton.addEventListener('click', changeStatus)
+    taskWrapper.appendChild(completeButton);
+    
+    const taskName = document.createElement('div');
+    taskName.className = 'taskNameDiv';
+    taskName.textContent =  item.taskName 
+    taskWrapper.appendChild(taskName);
+
+    const taskPriority = document.createElement('div');
+    taskPriority.className = 'taskPriorityDiv';
+    taskPriority.textContent =  item.priority 
+    taskWrapper.appendChild(taskPriority);
+
+    const taskDate = document.createElement('div');
+    taskDate.className = 'taskDateDiv';
+    taskDate.textContent =  item.date 
+    taskWrapper.appendChild(taskDate);
+
+    const deleteButton = document.createElement('button');
+    deleteButton.className = 'taskDeleteBtn';
+    deleteButton.textContent = 'X';
+    item.id = _taskFactory__WEBPACK_IMPORTED_MODULE_0__.project.indexOf(item);
+    let index = item.id; 
+    deleteButton.addEventListener('click', deleteTask)
+    taskWrapper.appendChild(deleteButton)
+
+    taskHolder.append(taskWrapper)
+
+    //delete task from project array
+    function deleteTask() {
+       _taskFactory__WEBPACK_IMPORTED_MODULE_0__.project.splice(index,1); 
+       taskHolder.innerHTML =' ';
+       _taskFactory__WEBPACK_IMPORTED_MODULE_0__.project.forEach(item => {renderTask(item)}); console.table(_taskFactory__WEBPACK_IMPORTED_MODULE_0__.project)
+    }
+
+    //change color of completed task
+    function changeStatus(){   
+        status = !status; console.log(status);
+        (status === false) ? this.style.backgroundColor = 'pink' : this.style.backgroundColor = 'orange';
+    }
+}
+
+
+// render PROJECT and give project functionality
+function renderProject(){
+    
+}
+
+
+
+/***/ }),
+
+/***/ "./src/modules/projectFactory.js":
+/*!***************************************!*\
+  !*** ./src/modules/projectFactory.js ***!
+  \***************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "projectFactory": () => /* binding */ projectFactory
+/* harmony export */ });
+const projectFactory = (name, description) => {
+    let tasks = [];
+    let id = '';
+
+    return{name, description, tasks, id}
+}
+
+
+
+/***/ }),
+
+/***/ "./src/modules/projectHelpers.js":
+/*!***************************************!*\
+  !*** ./src/modules/projectHelpers.js ***!
+  \***************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "hideProjectForm": () => /* binding */ hideProjectForm,
+/* harmony export */   "displayProjectForm": () => /* binding */ displayProjectForm,
+/* harmony export */   "addProject": () => /* binding */ addProject
+/* harmony export */ });
+/* harmony import */ var _projectFactory__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./projectFactory */ "./src/modules/projectFactory.js");
+
+
+
+function hideProjectForm() {
+    const projectForm = document.getElementById('projectForm');
+    projectForm.style.display = 'none';
+}
+
+function displayProjectForm() {
+    projectForm.style.display = 'block';
+}
+
+function addProject() {
+    event.preventDefault();
+    let project = (0,_projectFactory__WEBPACK_IMPORTED_MODULE_0__.projectFactory)(projectName.value, projectDescription.value)
+    console.log(project);
+    hideProjectForm();
+}
 
 
 /***/ }),
@@ -44,8 +188,8 @@ const project = [];
 //complete, name, priority, date, always want complete to be set to false automatically, id = project.length
 const taskFactory = (taskName, priority, date) => {
     let completedStatus = false;
-    let id = project.length;
-    return{completedStatus, taskName, priority, date, id}
+    let id = ' '
+    return{completedStatus, taskName, priority, date, id} 
 }
 
 
@@ -66,6 +210,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "displayTaskForm": () => /* binding */ displayTaskForm
 /* harmony export */ });
 /* harmony import */ var _taskFactory__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./taskFactory */ "./src/modules/taskFactory.js");
+/* harmony import */ var _DOM__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./DOM */ "./src/modules/DOM.js");
+
+
 
 
 
@@ -77,7 +224,7 @@ function addTaskToProject() {
     taskForm.reset();
     taskForm.style.display = 'none';
     console.log(_taskFactory__WEBPACK_IMPORTED_MODULE_0__.project)
-    renderTask(task)
+    ;(0,_DOM__WEBPACK_IMPORTED_MODULE_1__.renderTask)(task);
 }
 
 //set so form is hidden till clicked 
@@ -89,56 +236,6 @@ function hideTaskForm(){
 //display task form
 function displayTaskForm() {
     taskForm.style.display = 'block';
-}
-
-
-//render task in DOM
-function renderTask(item){
-    const app = document.getElementById('app');
-
-    const taskWrapper = document.createElement('div');
-    taskWrapper.className = 'task';
-
-    const completeButton = document.createElement('button');
-    completeButton.className = 'taskCompleteBtn';
-    completeButton.textContent = '✓';
-    let status = item.completedStatus; console.log(status);
-    completeButton.addEventListener('click', changeStatus)
-    taskWrapper.appendChild(completeButton);
-
-    const taskName = document.createElement('div');
-    taskName.className = 'taskNameDiv';
-    taskName.textContent =  item.taskName //way to add name in here
-    taskWrapper.appendChild(taskName);
-
-    const taskPriority = document.createElement('div');
-    taskPriority.className = 'taskPriorityDiv';
-    taskPriority.textContent =  item.priority //way to add name in here
-    taskWrapper.appendChild(taskPriority);
-
-    const taskDate = document.createElement('div');
-    taskDate.className = 'taskDateDiv';
-    taskDate.textContent =  item.date //way to add name in here
-    taskWrapper.appendChild(taskDate);
-
-    const deleteButton = document.createElement('button');
-    deleteButton.className = 'taskDeleteBtn';
-    deleteButton.textContent = 'X';
-    //need to add event listener
-    taskWrapper.appendChild(deleteButton)
-
-    app.append(taskWrapper)
-
-    //change color of completed task
-    function changeStatus(){   
-        status = !status; console.log(status);
-        (status === false) ? this.style.backgroundColor = 'pink' : this.style.backgroundColor = 'orange';
-    }
-
-    function deleteTask() {
-        
-    }
-    //
 }
 
 

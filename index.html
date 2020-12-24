@@ -6,18 +6,32 @@
      <link rel="stylesheet" href="/src/style.css">
    </head>
    <body>
-    <button id='addTask'>+ Task</button>
-    <form id='taskForm'>
-      <input id='taskName' placeholder="Task Name">
-      <select id='priority'>
-        <option value='High'>High</option>
-        <option value='Medium'>Medium</option>
-        <option value='Low'>Low</option>
-      </select>
-      <input id='date' placeholder="mm/dd/yy">
-      <button id='taskDoneButton'>Add</button>
-    </form>
-    <div id='app'>Tasks</div>
+    <h2>TO DO LIST</h2>
+    <div id='app'>
+      <div id=projectSide>PROJECTS
+        <button id='addProject'>+ Project</button>
+        <form id='projectForm'>
+          <input id='projectName' placeholder="Project Name">
+          <input id='projectDescription' placeholder="Description">
+          <button id='projectSubmit'>Add</button>
+        </form>
+        <div id=projectsHolder></div>
+      </div>
+      <div id=taskSide>TASKS
+        <button id='addTask'>+ Task</button>
+        <form id='taskForm'>
+          <input id='taskName' placeholder="Task Name">
+          <select id='priority'>
+            <option value='High'>High</option>
+            <option value='Medium'>Medium</option>
+            <option value='Low'>Low</option>
+          </select>
+          <input id='date' placeholder="mm/dd/yy">
+          <button id='taskSubmit'>Add</button>
+        </form>
+        <div id='tasksHolder'></div>
+      </div>
+    </div>
     <script src='main.js'></script>
    </body>
  </html>
