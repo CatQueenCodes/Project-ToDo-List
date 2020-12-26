@@ -17,6 +17,7 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
+//import { renderProject } from './modules/DOM';
 
 //holds app projects
 const allProjects = []; 
@@ -41,7 +42,15 @@ submitTaskButton.addEventListener('click', _modules_taskHelpers__WEBPACK_IMPORTE
 (0,_modules_taskHelpers__WEBPACK_IMPORTED_MODULE_0__.hideTaskForm)();
 (0,_modules_projectHelpers__WEBPACK_IMPORTED_MODULE_1__.hideProjectForm)();
 
+//keeps add task button hidden
+(0,_modules_taskHelpers__WEBPACK_IMPORTED_MODULE_0__.hideAddTaskButton)();
 
+
+//const defaultProj = {name: 'Default Project', description: 'This is the default project', tasks:[{taskName: 'Default Task', priority: 'Medium', date: 10/10/10, completedStatus: false, id: 0}], id:0} 
+//renderProject(defaultProj);
+
+
+// {name: 'Default Project', description: 'This is the default project', tasks:[{taskName: 'Default Task', priority: 'Medium', date: 10/10/10, completedStatus: false, id: 0}], id:0}
 
 /***/ }),
 
@@ -58,9 +67,11 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "specificProject": () => /* binding */ specificProject
 /* harmony export */ });
 /* harmony import */ var _src_index_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../../../../../src/index.js */ "./src/index.js");
+/* harmony import */ var _taskHelpers__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./taskHelpers */ "./src/modules/taskHelpers.js");
 
 
-//for use in /addTaskToProject, tells it which project to add task to, set when project is clicked
+
+//for use in /addTaskToProject() deleteTask(), tells it which project to add task to, set when project is clicked
 let specificProject = ''; 
 
 //render task in DOM + complete & delete functionality
@@ -146,14 +157,19 @@ function renderProject(item){
     function deleteProject() {
         _src_index_js__WEBPACK_IMPORTED_MODULE_0__.allProjects.splice(index, 1);
         projectHolder.innerHTML = '';
-        _src_index_js__WEBPACK_IMPORTED_MODULE_0__.allProjects.forEach(item => renderProject(item)); console.table(_src_index_js__WEBPACK_IMPORTED_MODULE_0__.allProjects)
+        _src_index_js__WEBPACK_IMPORTED_MODULE_0__.allProjects.forEach(project => renderProject(project)); console.table(_src_index_js__WEBPACK_IMPORTED_MODULE_0__.allProjects)
     }
 
     function displayProject(){
+        console.log(event.target)
         specificProject = _src_index_js__WEBPACK_IMPORTED_MODULE_0__.allProjects[index]; //console.log(specificProject.tasks);
-        name.textContent = item.name;
-        description.textContent = item.description;
-        taskHolder.innerHTML = '';
+        if(event.target !== deleteButton) {
+            name.textContent = item.name;
+            description.textContent = item.description;
+            taskHolder.innerHTML = '';
+            specificProject.tasks.forEach(task => {renderTask(task)})
+            ;(0,_taskHelpers__WEBPACK_IMPORTED_MODULE_1__.displayAddTaskButton)();
+        }
     }
 }
 
@@ -256,7 +272,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "addTaskToProject": () => /* binding */ addTaskToProject,
 /* harmony export */   "hideTaskForm": () => /* binding */ hideTaskForm,
-/* harmony export */   "displayTaskForm": () => /* binding */ displayTaskForm
+/* harmony export */   "displayTaskForm": () => /* binding */ displayTaskForm,
+/* harmony export */   "hideAddTaskButton": () => /* binding */ hideAddTaskButton,
+/* harmony export */   "displayAddTaskButton": () => /* binding */ displayAddTaskButton
 /* harmony export */ });
 /* harmony import */ var _taskFactory__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./taskFactory */ "./src/modules/taskFactory.js");
 /* harmony import */ var _DOM__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./DOM */ "./src/modules/DOM.js");
@@ -286,6 +304,16 @@ function hideTaskForm(){
 //display task form
 function displayTaskForm() {
     taskForm.style.display = 'block';
+}
+
+function hideAddTaskButton() {
+    const addTask = document.getElementById('addTask');
+    addTask.style.display = 'none';
+}
+
+function displayAddTaskButton() {
+    const addTask = document.getElementById('addTask');
+    addTask.style.display = 'block';
 }
 
 
