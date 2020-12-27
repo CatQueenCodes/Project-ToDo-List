@@ -158,6 +158,11 @@ function renderProject(item){
         _src_index_js__WEBPACK_IMPORTED_MODULE_0__.allProjects.splice(index, 1);
         projectHolder.innerHTML = '';
         _src_index_js__WEBPACK_IMPORTED_MODULE_0__.allProjects.forEach(project => renderProject(project)); console.table(_src_index_js__WEBPACK_IMPORTED_MODULE_0__.allProjects)
+        if(_src_index_js__WEBPACK_IMPORTED_MODULE_0__.allProjects.length === 0) {
+            name.textContent = 'Please Create a Project';
+            description.textContent = 'Select a project to add tasks to it!';
+            (0,_taskHelpers__WEBPACK_IMPORTED_MODULE_1__.hideAddTaskButton)();
+        }
     }
 
     function displayProject(){
