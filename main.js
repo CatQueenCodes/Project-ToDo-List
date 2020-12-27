@@ -81,7 +81,7 @@ let specificTask = '';
 
 //render task in DOM + complete & delete functionality
 function renderTask(item){
-    
+    const submitTaskBtn = document.getElementById('taskSubmit');
     const taskHolder = document.getElementById('tasksHolder');
 
     const taskWrapper = document.createElement('div');
@@ -122,6 +122,9 @@ function renderTask(item){
     taskHolder.append(taskWrapper)
 
     function deleteTask(){  
+        ;(0,_taskHelpers__WEBPACK_IMPORTED_MODULE_1__.hideTaskForm)();
+        taskForm.reset()
+        submitTaskBtn.textContent = 'Add';
         specificProject.tasks.splice(index,1); 
         taskHolder.innerHTML ='';
         specificProject.tasks.forEach(task => {renderTask(task)}); 
@@ -137,8 +140,8 @@ function renderTask(item){
 
     function editTask(){
         if(event.target !== deleteButton && event.target !== completeButton){
-            const updateBtn = document.getElementById('taskSubmit');
-            updateBtn.textContent = 'Update';
+            const submitTaskBtn = document.getElementById('taskSubmit');
+            submitTaskBtn.textContent = 'Update';
             (0,_taskHelpers__WEBPACK_IMPORTED_MODULE_1__.displayTaskForm)();
             nameTask.value = item.nameTask;
             priority.value = item.priority;
@@ -323,7 +326,7 @@ function addTaskToProject() {
         task.taskDescription = taskDescription.value;
         project.push(task);
         taskForm.reset();
-        taskForm.style.display = 'none';
+        hideTaskForm();
         (0,_DOM__WEBPACK_IMPORTED_MODULE_1__.renderTask)(task);
         console.log('This Projects Task', _DOM__WEBPACK_IMPORTED_MODULE_1__.specificProject.tasks)
     }else if(this.innerHTML == 'Update'){
@@ -334,7 +337,7 @@ function addTaskToProject() {
         taskholder.innerHTML = '';
         _DOM__WEBPACK_IMPORTED_MODULE_1__.specificProject.tasks.forEach(task => {(0,_DOM__WEBPACK_IMPORTED_MODULE_1__.renderTask)(task)}); 
         console.log('This Projects Task', _DOM__WEBPACK_IMPORTED_MODULE_1__.specificProject.tasks)
-        taskForm.style.display = 'none'
+        hideTaskForm();
         this.innerHTML = 'Add';
         taskForm.reset();
     }
