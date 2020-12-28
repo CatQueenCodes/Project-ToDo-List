@@ -14,13 +14,14 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var _modules_taskHelpers__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./modules/taskHelpers */ "./src/modules/taskHelpers.js");
 /* harmony import */ var _modules_projectHelpers__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./modules/projectHelpers */ "./src/modules/projectHelpers.js");
+/* harmony import */ var _modules_DOM__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./modules/DOM */ "./src/modules/DOM.js");
 
 
 
-//import { renderProject } from './modules/DOM';
+
 
 //holds app projects
-const allProjects = []; 
+let allProjects = []; 
 
 //display form when '+ Project' clicked
 const addProjectButton = document.getElementById('addProject');
@@ -47,8 +48,20 @@ submitTaskButton.addEventListener('click', _modules_taskHelpers__WEBPACK_IMPORTE
 (0,_modules_taskHelpers__WEBPACK_IMPORTED_MODULE_0__.hideAddTaskButton)();
 
 
-//const defaultProj = {name: 'Default Project', description: 'This is the default project', tasks:[{taskName: 'Default Task', priority: 'Medium', date: 10/10/10, completedStatus: false, id: 0}], id:0} 
-//renderProject(defaultProj);
+// //Local Storage functions
+// function setData() {
+//     localStorage.setItem('allProjects', JSON.stringify(allProjects));
+// }
+
+// function getData(){
+//     let project = localStorage.getItem('allProjects');
+//     project = JSON.parse(project);
+//     allProjects = project;
+//     allProjects.forEach(project => { renderProject(project)});
+// }
+
+// getData();
+
 
 
 // {name: 'Default Project', description: 'This is the default project', tasks:[{taskName: 'Default Task', priority: 'Medium', date: 10/10/10, completedStatus: false, id: 0}], id:0}
@@ -91,7 +104,6 @@ function renderTask(item){
     const completeButton = document.createElement('button');
     completeButton.className = 'taskCompleteBtn';
     completeButton.textContent = '✓';
-    let status = item.completedStatus; 
     completeButton.addEventListener('click', changeStatus)
     taskWrapper.appendChild(completeButton);
     
@@ -132,8 +144,8 @@ function renderTask(item){
 
     //change color of completed task
     function changeStatus(){  
-        status = !status; console.log(status);
-        (status === false) ? this.style.backgroundColor = '#EFEFEF' : this.style.backgroundColor = 'rgb(115, 155, 96)';
+        item.completedStatus = !item.completedStatus;  console.log(item);
+        (item.completedStatus === false) ? this.style.backgroundColor = '#EFEFEF' : this.style.backgroundColor = 'rgb(115, 155, 96)';
     }
 
     //display task description and edit when clicked
