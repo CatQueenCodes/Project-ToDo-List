@@ -290,6 +290,7 @@ function addProject() {
     projectForm.reset();
     (0,_DOM__WEBPACK_IMPORTED_MODULE_1__.renderProject)(project);
     console.log('AllProject:', _src_index_js__WEBPACK_IMPORTED_MODULE_2__.allProjects)
+    ;(0,_src_index_js__WEBPACK_IMPORTED_MODULE_2__.setData)();
 }
 
 
