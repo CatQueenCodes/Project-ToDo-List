@@ -49,16 +49,20 @@ submitTaskButton.addEventListener('click', _modules_taskHelpers__WEBPACK_IMPORTE
 (0,_modules_taskHelpers__WEBPACK_IMPORTED_MODULE_0__.hideAddTaskButton)();
 
 
-//Local Storage functions
+// Local Storage functions
 function setData() {
     localStorage.setItem('allProjects', JSON.stringify(allProjects));
 }
 
 function getData(){
-    let project = localStorage.getItem('allProjects');
-    project = JSON.parse(project);
-    allProjects = project;
-    allProjects.forEach(project => { (0,_modules_DOM__WEBPACK_IMPORTED_MODULE_2__.renderProject)(project)});
+    if(!localStorage.allProjects){
+        setData();
+    }else{
+        let project = localStorage.getItem('allProjects');
+        project = JSON.parse(project);
+        allProjects = project;
+        allProjects.forEach(project => { (0,_modules_DOM__WEBPACK_IMPORTED_MODULE_2__.renderProject)(project)});
+    }
 }
 
 getData();
