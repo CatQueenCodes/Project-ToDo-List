@@ -10,7 +10,8 @@
 
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "allProjects": () => /* binding */ allProjects
+/* harmony export */   "allProjects": () => /* binding */ allProjects,
+/* harmony export */   "setData": () => /* binding */ setData
 /* harmony export */ });
 /* harmony import */ var _modules_taskHelpers__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./modules/taskHelpers */ "./src/modules/taskHelpers.js");
 /* harmony import */ var _modules_projectHelpers__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./modules/projectHelpers */ "./src/modules/projectHelpers.js");
@@ -48,19 +49,19 @@ submitTaskButton.addEventListener('click', _modules_taskHelpers__WEBPACK_IMPORTE
 (0,_modules_taskHelpers__WEBPACK_IMPORTED_MODULE_0__.hideAddTaskButton)();
 
 
-// //Local Storage functions
-// function setData() {
-//     localStorage.setItem('allProjects', JSON.stringify(allProjects));
-// }
+//Local Storage functions
+function setData() {
+    localStorage.setItem('allProjects', JSON.stringify(allProjects));
+}
 
-// function getData(){
-//     let project = localStorage.getItem('allProjects');
-//     project = JSON.parse(project);
-//     allProjects = project;
-//     allProjects.forEach(project => { renderProject(project)});
-// }
+function getData(){
+    let project = localStorage.getItem('allProjects');
+    project = JSON.parse(project);
+    allProjects = project;
+    allProjects.forEach(project => { (0,_modules_DOM__WEBPACK_IMPORTED_MODULE_2__.renderProject)(project)});
+}
 
-// getData();
+getData();
 
 
 
@@ -146,6 +147,7 @@ function renderTask(item){
         specificProject.tasks.splice(index,1); 
         taskHolder.innerHTML ='';
         specificProject.tasks.forEach(task => {renderTask(task)}); 
+        (0,_src_index_js__WEBPACK_IMPORTED_MODULE_0__.setData)();
     }
 
     //change color of completed task    //could also just re-render and remove color change on click since it will change the status and re-rendering will render it with new color linked to status
@@ -155,6 +157,7 @@ function renderTask(item){
         specificProject.tasks.forEach(task => {renderTask(task)}); 
         (item.completedStatus === false) ? this.style.backgroundColor = '#EFEFEF' : this.style.backgroundColor = 'rgb(115, 155, 96)';  //need this line and the one after so color is updated if complete button is clicked during  'update task' is
         specificComplete = item.completedStatus; console.log(specificComplete); 
+        (0,_src_index_js__WEBPACK_IMPORTED_MODULE_0__.setData)();
     }
 
     //display task description and edit when clicked
@@ -168,7 +171,8 @@ function renderTask(item){
             date.value = item.date;
             taskDescription.value = item.taskDescription;
             specificTask = item.id;  console.log(item.id)  
-            specificComplete = item.completedStatus; //idk if i need this or not 
+            specificComplete = item.completedStatus; 
+            (0,_src_index_js__WEBPACK_IMPORTED_MODULE_0__.setData)();
         }
     }
 }
@@ -208,6 +212,7 @@ function renderProject(item){
             description.textContent = 'Select a project to add tasks to it!';
             (0,_taskHelpers__WEBPACK_IMPORTED_MODULE_1__.hideAddTaskButton)();
         }
+        (0,_src_index_js__WEBPACK_IMPORTED_MODULE_0__.setData)();
     }
 
     function displayProject(){
@@ -329,10 +334,11 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var _taskFactory__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./taskFactory */ "./src/modules/taskFactory.js");
 /* harmony import */ var _DOM__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./DOM */ "./src/modules/DOM.js");
+/* harmony import */ var _src_index_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../../../../src/index.js */ "./src/index.js");
 
 
 
-//import {setData} from '/src/index.js'
+
 
 //when you click add button it adds the task to the Project Array and uses the values in the task Factory.
 function addTaskToProject() {
@@ -363,6 +369,7 @@ function addTaskToProject() {
         this.innerHTML = 'Add';
         taskForm.reset();
     }
+    (0,_src_index_js__WEBPACK_IMPORTED_MODULE_2__.setData)();
 }
 
 //set so form is hidden till clicked 
