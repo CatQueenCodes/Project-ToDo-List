@@ -79,7 +79,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "renderTask": () => /* binding */ renderTask,
 /* harmony export */   "renderProject": () => /* binding */ renderProject,
 /* harmony export */   "specificProject": () => /* binding */ specificProject,
-/* harmony export */   "specificTask": () => /* binding */ specificTask
+/* harmony export */   "specificTask": () => /* binding */ specificTask,
+/* harmony export */   "specificComplete": () => /* binding */ specificComplete
 /* harmony export */ });
 /* harmony import */ var _src_index_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../../../../../src/index.js */ "./src/index.js");
 /* harmony import */ var _taskHelpers__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./taskHelpers */ "./src/modules/taskHelpers.js");
@@ -91,6 +92,8 @@ let specificProject = '';
 
 //for use in /addTaskToProject() when updating for splice value
 let specificTask = ''; 
+
+let specificComplete = '';
 
 //render task in DOM + complete & delete functionality
 function renderTask(item){
@@ -104,6 +107,7 @@ function renderTask(item){
     const completeButton = document.createElement('button');
     completeButton.className = 'taskCompleteBtn';
     completeButton.textContent = '✓';
+    (item.completedStatus === false) ? completeButton.style.backgroundColor = '#EFEFEF' : completeButton.style.backgroundColor = 'rgb(115, 155, 96)';
     completeButton.addEventListener('click', changeStatus)
     taskWrapper.appendChild(completeButton);
     
@@ -142,17 +146,17 @@ function renderTask(item){
         specificProject.tasks.forEach(task => {renderTask(task)}); 
     }
 
-    //change color of completed task
+    //change color of completed task    //could also just re-render and remove color change on click since it will change the status and re-rendering will render it with new color linked to status
     function changeStatus(){  
         item.completedStatus = !item.completedStatus;  console.log(item);
-        (item.completedStatus === false) ? this.style.backgroundColor = '#EFEFEF' : this.style.backgroundColor = 'rgb(115, 155, 96)';
+        (item.completedStatus === false) ? this.style.backgroundColor = '#EFEFEF' : this.style.backgroundColor = 'rgb(115, 155, 96)';  //something in render so that if the status is changed it renders in the correct color, not only when clicked
+        specificComplete = item.completedStatus; console.log(specificComplete); //idk if i need this , idk about specific task either
     }
 
     //display task description and edit when clicked
 
     function editTask(){
         if(event.target !== deleteButton && event.target !== completeButton){
-            const submitTaskBtn = document.getElementById('taskSubmit');
             submitTaskBtn.textContent = 'Update';
             (0,_taskHelpers__WEBPACK_IMPORTED_MODULE_1__.displayTaskForm)();
             nameTask.value = item.nameTask;
@@ -160,6 +164,7 @@ function renderTask(item){
             date.value = item.date;
             taskDescription.value = item.taskDescription;
             specificTask = item.id;  console.log(item.id)  
+            specificComplete = item.completedStatus; //idk if i need this or not 
         }
     }
 }
@@ -323,7 +328,7 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-
+//import {setData} from '/src/index.js'
 
 //when you click add button it adds the task to the Project Array and uses the values in the task Factory.
 function addTaskToProject() {
@@ -331,10 +336,10 @@ function addTaskToProject() {
     let project = _DOM__WEBPACK_IMPORTED_MODULE_1__.specificProject.tasks;
     let taskholder = document.getElementById('tasksHolder');
 
+   
     if(this.innerHTML == 'Add') {
         event.preventDefault();
         task = (0,_taskFactory__WEBPACK_IMPORTED_MODULE_0__.taskFactory)(nameTask.value, priority.value, date.value)
-        // let project = specificProject.tasks;
         task.taskDescription = taskDescription.value;
         project.push(task);
         taskForm.reset();
@@ -345,6 +350,7 @@ function addTaskToProject() {
         event.preventDefault();
         task = (0,_taskFactory__WEBPACK_IMPORTED_MODULE_0__.taskFactory)(nameTask.value, priority.value, date.value)
         task.taskDescription = taskDescription.value;
+        task.completedStatus = _DOM__WEBPACK_IMPORTED_MODULE_1__.specificComplete;console.log(_DOM__WEBPACK_IMPORTED_MODULE_1__.specificTask) //idk if I need this  
         project.splice(_DOM__WEBPACK_IMPORTED_MODULE_1__.specificTask, 1, task); console.log(task.id); console.log(task)
         taskholder.innerHTML = '';
         _DOM__WEBPACK_IMPORTED_MODULE_1__.specificProject.tasks.forEach(task => {(0,_DOM__WEBPACK_IMPORTED_MODULE_1__.renderTask)(task)}); 
